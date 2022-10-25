@@ -7,15 +7,13 @@ import com.rest.api.model.response.ListResult;
 import com.rest.api.model.response.SingleResult;
 import com.rest.api.repo.UserJpaRepo;
 import com.rest.api.service.ResponseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"1. User"})
+@Api(tags = {"2. User"})
 @RestController // 결과값 JSON으로 출력
 @RequestMapping(value = "/v1")
 
@@ -28,6 +26,7 @@ public class UserController {
     /*
     조회
      */
+    @ApiImplicitParams({@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")})
     @ApiOperation(value = "회원 리스트 조회", notes = "모든 회원을 조회한다")
     @GetMapping(value = "/users")
     public ListResult<User> findAllUser() {
@@ -35,6 +34,7 @@ public class UserController {
         return responseService.getListResult(userJpaRepo.findAll());
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")})
     @ApiOperation(value="회원 단건 조회", notes="userId로 회원을 조회한다")
     @GetMapping(value="/user/{msrl}")
     public SingleResult<User> findUserById(
@@ -45,22 +45,9 @@ public class UserController {
     }
 
     /*
-    입력
-     */
-    @ApiOperation(value = "회원 입력", notes = "회원을 입력한다.")
-    @PostMapping(value = "/user")
-    public SingleResult<User> save(@ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
-                                   @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
-        User user = User.builder()
-                .uid(uid)
-                .name(name)
-                .build();
-        return responseService.getSingleResult(userJpaRepo.save(user));
-    }
-
-    /*
     수정
      */
+    @ApiImplicitParams({@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")})
     @ApiOperation(value="회원 수정", notes="회원정보를 수정한다")
     @PutMapping(value="/user")
     public SingleResult<User> modify(
@@ -78,6 +65,7 @@ public class UserController {
     /*
     삭제
      */
+    @ApiImplicitParams({@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")})
     @ApiOperation(value="회원 삭제", notes="userId로 회원정보를 삭제한다")
     @DeleteMapping(value="/user/{msrl}")
     public CommonResult delete(
