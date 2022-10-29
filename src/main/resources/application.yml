@@ -8,7 +8,7 @@ spring:
     username: sa
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    properties.hibernate.hbm2ddl.auto: none
+    properties.hibernate.hbm2ddl.auto: create
     showSql: true
   mvc:
     pathmatch:
@@ -18,3 +18,17 @@ spring:
     encoding: UTF-8
   jwt:
     secret: govlepel@$&
+  social:
+    kakao:
+      client_id: aa3e67e0a4cea5c0b46bd6e5c733e256
+      redirect: /social/login/kakao
+      url:
+        login: https://kauth.kakao.com/oauth/authorize
+        token: https://kauth.kakao.com/oauth/token
+#        profile: https://kauth.kakao.com/v2/user/me
+        profile: https://kapi.kakao.com/v2/user/me
+  url:
+    base: http://localhost:8080
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
